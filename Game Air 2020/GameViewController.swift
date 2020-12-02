@@ -11,10 +11,34 @@ import SceneKit
 
 class GameViewController: UIViewController {
 
+    // MARK: - Outlets
+    let button = UIButton()
+    
     // MARK: - Stored Properties
     var scene: SCNScene!
+    var scnView: SCNView!
     
     // MARK: - Methods
+    /// Adds the button to the scene view
+    func addButton() {
+        // Button coordinates
+        let midX = scnView.frame.midX
+        let midY = scnView.frame.midY
+        let wigth: CGFloat = 200
+        let height: CGFloat = 100
+        button.frame = CGRect(x: midX - wigth / 2, y: midY - height / 2, width: wigth, height: height)
+        
+        // Configure button
+        button.backgroundColor = .orange
+        button.layer.cornerRadius = 25
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 35)
+        button.setTitle("Restart", for: .normal)
+        
+        
+        // Add button to the scene
+        scnView.addSubview(button)
+    }
+    
     /// Clones new ship from the scene
     /// - Returns: SCNNode with the scene
     func getShip() -> SCNNode {
@@ -76,7 +100,7 @@ class GameViewController: UIViewController {
         // ship.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 2, z: 0, duration: 1)))
         
         // retrieve the SCNView
-        let scnView = self.view as! SCNView
+        scnView = self.view as? SCNView
         
         // set the scene to the view
         scnView.scene = scene
@@ -97,6 +121,9 @@ class GameViewController: UIViewController {
         // Add ship to the scene
         let ship = getShip()
         scnView.scene?.rootNode.addChildNode(ship)
+        
+        // Add button
+        addButton()
     }
     
     @objc
