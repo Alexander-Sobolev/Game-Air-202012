@@ -30,6 +30,7 @@ class GameViewController: UIViewController {
         
         // Configure button
         button.backgroundColor = .orange
+        button.isHidden = true
         button.layer.cornerRadius = 25
         button.titleLabel?.font = UIFont.systemFont(ofSize: 35)
         button.setTitle("Restart", for: .normal)
@@ -53,7 +54,11 @@ class GameViewController: UIViewController {
         ship.look(at: SCNVector3(2 * x, 2 * y, 2 * z))
         
         // Add animation to move the ship to origin
-        ship.runAction(.move(to: SCNVector3(), duration: 5))
+        ship.runAction(.move(to: SCNVector3(), duration: 5)) {
+            DispatchQueue.main.async {
+                self.button.isHidden = false
+            }
+        }
         
         return ship.clone()
     }
